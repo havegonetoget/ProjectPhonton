@@ -9,7 +9,7 @@ public class DatabaseConnection {
     private static final String USER = "student"; // Your DB username
     private static final String PASSWORD = "student"; // Your DB password
 
-    //establishes a connecction
+    //establishes a connection
     public static Connection getConnection() {
         try {
             return DriverManager.getConnection(URL, USER, PASSWORD);
