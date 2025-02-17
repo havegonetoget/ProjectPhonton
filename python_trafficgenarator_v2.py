@@ -33,7 +33,7 @@ print ("waiting for start from game_software")
 received_data = ' '
 try:
 	while received_data != '202':
-		received_data, address = UDPServerSocketReceive.recvfrom(bufferSize)  #removed the while and indentions
+		received_data, address = UDPServerSocketReceive.recvfrom(bufferSize)
 		received_data = received_data.decode('utf-8')
 		print ("Received from game software: " + received_data)
 except socket.timeout:
@@ -68,7 +68,7 @@ while True:
 		
 	print("transmitting to game: " + message)
 	
-	UDPClientSocketTransmit.sendto(str.encode(str(message)), clientAddressPort)
+	UDPClientSocketTransmit.sendto(str.encode(str(message)), clientAddressPort) #changed to server from client
 	# receive answer from game softare
 	
 	

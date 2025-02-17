@@ -31,17 +31,7 @@ public class UDPClient {
 
         //Check if the user would like the change IP networks
         //Create scanner for user input
-        Scanner scanner = new Scanner(System.in);
-
-        //ask if user would like to change IP
-        System.out.println("Would you like to change networks (Y/N)");
-        String comparator = scanner.nextLine();
-
-        //if the user decides to change the IP
-        if (comparator.compareToIgnoreCase("Y") == 0){
-            System.out.println("Please input the new IP network");
-            BROADCAST_IP = scanner.nextLine();
-        }
+       
 
         //create a udp socket for sending data
         DatagramSocket socket = new DatagramSocket();
