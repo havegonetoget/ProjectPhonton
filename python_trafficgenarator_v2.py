@@ -1,6 +1,7 @@
 import socket
 import random
 import time
+import sys
 
 bufferSize  = 1024
 serverAddressPort   = ("127.0.0.1", 7500)
@@ -23,15 +24,21 @@ UDPClientSocketTransmit = socket.socket(family=socket.AF_INET, type=socket.SOCK_
 # bind server socket
 UDPServerSocketReceive.bind(serverAddressPort)
 
+UDPServerSocketReceive.settimeout(30)
+
 # wait for start from game software
 print ("")
 print ("waiting for start from game_software")
 
 received_data = ' '
-while received_data != '202':
-	received_data, address = UDPServerSocketReceive.recvfrom(bufferSize)
-	received_data = received_data.decode('utf-8')
-	print ("Received from game software: " + received_data)
+try:
+	while received_data != '202':
+		received_data, address = UDPServerSocketReceive.recvfrom(bufferSize)  #removed the while and indentions
+		received_data = received_data.decode('utf-8')
+		print ("Received from game software: " + received_data)
+except socket.timeout:
+		print("Timeout reached Exiting")
+		sys.exit(0) 
 print ('')
 
 # create events, random player and order
@@ -69,7 +76,7 @@ while True:
 	received_data = received_data.decode('utf-8')
 	print ("Received from game software: " + received_data)
 	print ('')
-	counter = counter + 1;
+	counter = counter + 1; 
 	if received_data == '221':
 		break;
 	time.sleep(random.randint(1,3))

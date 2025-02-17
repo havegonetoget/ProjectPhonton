@@ -13,8 +13,10 @@ public class UDPServer {
 
     //main mehtod that starts the UDP server
     public static void main(String[] args) throws IOException {
+       DatagramSocket socket = null; 
+       try {
         //create udp socket that listens on port 7501
-        DatagramSocket socket = new DatagramSocket(RECEIVE_PORT);
+        socket = new DatagramSocket(RECEIVE_PORT);
         byte[] receiveBuffer = new byte[1024];
 
         System.out.println("UDP Server started on port " + RECEIVE_PORT);
@@ -30,6 +32,13 @@ public class UDPServer {
 
             //process the recived message 
             processMessage(receivedData);
+        } } catch (IOException e){
+            e.printStackTrace();
+        } finally {
+            if (socket != null && socket.isClosed()) {
+                socket.close();
+                System.out.println("UDP Server socket closed. ");
+            }
         }
     }
 

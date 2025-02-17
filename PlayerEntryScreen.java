@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class PlayerEntryScreen extends JFrame {
     private JTextField playerIdField, equipmentIdField, codeNameField;
@@ -12,7 +13,13 @@ public class PlayerEntryScreen extends JFrame {
     private JTextField[][] redTeamFields;
     private JTextField[][] greenTeamFields;
 
-public PlayerEntryScreen() {
+    //Adds reference to main class to call the py script when start game is clicked
+    private Main mainApp; 
+
+public PlayerEntryScreen(Main mainApp) {
+
+    this.mainApp = mainApp; 
+
     setTitle("Player Entry");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setSize(800, 600);
@@ -89,10 +96,72 @@ public PlayerEntryScreen() {
     getContentPane().add(mainPanel, BorderLayout.CENTER);
     getContentPane().add(controlPanel, BorderLayout.SOUTH);
 
+    startButton.addActionListener(new StartButtonListener());
+    submitButton.addActionListener(new SubmitButtonListener());
+
     setVisible(true);
 }
 
-public static void main(String[] args) {
-    SwingUtilities.invokeLater(() -> new PlayerEntryScreen());
+
+private class SubmitButtonListener implements ActionListener {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // Collect data from the red and green team fields
+        StringBuilder redTeamData = new StringBuilder();
+        StringBuilder greenTeamData = new StringBuilder();
+
+        // Gather red team data
+        for (int i = 0; i < SLOTS_PER_TEAM; i++) {
+            String playerId = redTeamFields[i][0].getText();
+            String codeName = redTeamFields[i][1].getText();
+            String equipmentId = redTeamFields[i][2].getText();
+
+            if (!playerId.isEmpty() && !codeName.isEmpty() && !equipmentId.isEmpty()) {
+                redTeamData.append("Player ID: ").append(playerId)
+                        .append(", Code Name: ").append(codeName)
+                        .append(", Equipment ID: ").append(equipmentId).append("\n");
+            }
+        }
+
+        // Gather green team data
+        for (int i = 0; i < SLOTS_PER_TEAM; i++) {
+            String playerId = greenTeamFields[i][0].getText();
+            String codeName = greenTeamFields[i][1].getText();
+            String equipmentId = greenTeamFields[i][2].getText();
+
+            if (!playerId.isEmpty() && !codeName.isEmpty() && !equipmentId.isEmpty()) {
+                greenTeamData.append("Player ID: ").append(playerId)
+                        .append(", Code Name: ").append(codeName)
+                        .append(", Equipment ID: ").append(equipmentId).append("\n");
+            }
+        }
+
+        // Display collected data (for testing, you can replace this with actual storage or database interaction)
+        JOptionPane.showMessageDialog(null, "Red Team:\n" + redTeamData.toString() + "\nGreen Team:\n" + greenTeamData.toString());
+    }
 }
+
+// Start game button listener (starts the game and sends a message)
+private class StartButtonListener implements ActionListener {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+       
+       
+
+        // Optionally, send a UDP message to start the game
+        try {
+            UDPClient.sendMessage("202");
+              // "202" could be the message to start the game (as per your server logic)
+              //mainApp.startGameSim();
+            // Optionally, close the PlayerEntryScreen after starting the game
+            dispose();  // This will close the player entry window
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+    }
+}
+
+/*public static void main(String[] args) {   //removed because we are refering to main to call player entry screen 
+    SwingUtilities.invokeLater(() -> new PlayerEntryScreen());
+}*/
 }

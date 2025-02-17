@@ -1,12 +1,5 @@
 # ProjectPhonton
 Software Engineering Project 
 
-------------- How to Run -------------
 
-
-------------- GitHub Names & Real Names -------------
-EthanGreen-16:       Ethan Green
-havegonetoget:       Russell Van Norman
-hunterb516:          Hunter Braddy
-Nwherring:           Nicholas Herring
-SethL77:             Seth Lea
+Must run python generator script and main scsrip spereately in two terminals. There is no access to a SQL database so there will be an issue with putting and recieving SQL data. 

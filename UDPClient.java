@@ -10,6 +10,22 @@ public class UDPClient {
     private static String BROADCAST_IP = "127.0.0.1"; // Localhost
     private static int BROADCAST_PORT = 7500;
 
+    public static void changeNetwork(){  
+         //Check if the user would like the change IP networks
+        //Create scanner for user input
+        Scanner scanner = new Scanner(System.in);
+
+        //ask if user would like to change IP
+        System.out.println("Would you like to change networks (Y/N)");
+        String comparator = scanner.nextLine();
+
+        //if the user decides to change the IP
+        if (comparator.compareToIgnoreCase("Y") == 0){
+            System.out.println("Please input the new IP network");
+            BROADCAST_IP = scanner.nextLine();
+        }
+    }
+
     //send a message via udp to the specified brodcast port
     public static void sendMessage(String message) throws IOException {
 
