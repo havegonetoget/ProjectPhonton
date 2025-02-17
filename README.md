@@ -1,5 +1,6 @@
 # ProjectPhonton
 Software Engineering Project 
+
 ------------- How to Run -------------
 
 
@@ -7,5 +8,5 @@ Software Engineering Project
 EthanGreen-16:       Ethan Green
 havegonetoget:       Russell Van Norman
 hunterb516:          Hunter Braddy
-Nwherring:           Nicholas Herring'
+Nwherring:           Nicholas Herring
 SethL77:             Seth Lea
