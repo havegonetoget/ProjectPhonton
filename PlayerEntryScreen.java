@@ -136,7 +136,7 @@ private class SubmitButtonListener implements ActionListener {
             }
         }
 
-        // Display collected data (for testing, you can replace this with actual storage or database interaction)
+        // Display collected data (for testing)
         JOptionPane.showMessageDialog(null, "Red Team:\n" + redTeamData.toString() + "\nGreen Team:\n" + greenTeamData.toString());
     }
 }
@@ -151,7 +151,7 @@ private class StartButtonListener implements ActionListener {
         // Optionally, send a UDP message to start the game
         try {
             UDPClient.sendMessage("202");
-              // "202" could be the message to start the game (as per your server logic)
+              // "202" could be the message to start the game
               //mainApp.startGameSim();
             // Optionally, close the PlayerEntryScreen after starting the game
             dispose();  // This will close the player entry window
