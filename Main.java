@@ -13,9 +13,9 @@ public class Main {
         SplashScreen.showSplashScreen();
 
         // Start the player entry screen (GUI)
-        /*javax.swing.SwingUtilities.invokeLater(() -> {
+        javax.swing.SwingUtilities.invokeLater(() -> {
             new PlayerEntryScreen(mainApp);  //pass instance of main to player entry screen
-        }); */
+        });
 
         // Start the UDP Server in a separate thread
         new Thread(() -> {
@@ -48,7 +48,7 @@ public class Main {
     }
 
 
-   /*  public void startGameSim() {
+    public void startGameSim() {
         new Thread(() -> {
             runPythonTrafficGenerator();  // This method will run the Python script
         }).start(); 
@@ -76,6 +76,6 @@ public class Main {
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
-    } */
+    } 
 }
 
