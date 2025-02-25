@@ -38,11 +38,7 @@ public class Main {
             e.printStackTrace();
         }
 
-        try{
-            UDPClient.sendMessage("202");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+       
 
          
     }
