@@ -60,8 +60,10 @@ public class PlayerEntryScreen extends JFrame {
         JPanel controlPanel = new JPanel();
         JButton submitButton = new JButton("Submit");
         JButton startButton = new JButton("Start Game");
+        JButton clearButton = new JButton("Clear Entries");
         controlPanel.add(submitButton);
         controlPanel.add(startButton);
+        controlPanel.add(clearButton);
 
         getContentPane().setLayout(new BorderLayout(10, 10));
         getContentPane().add(mainPanel, BorderLayout.CENTER);
@@ -69,8 +71,31 @@ public class PlayerEntryScreen extends JFrame {
 
         submitButton.addActionListener(new SubmitButtonListener());
         startButton.addActionListener(new StartButtonListener());
+        clearButton.addActionListener(e -> clearPlayerEntries());
+
+        addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_F12) {
+                    clearPlayerEntries();
+                }
+            }
+        });
+        setFocusable(true);
+        requestFocusInWindow();
 
         setVisible(true);
+    }
+
+    private void clearPlayerEntries() {
+        for (int i = 0; i < SLOTS_PER_TEAM; i++) {
+            redTeamFields[i][0].setText("");
+            redTeamFields[i][1].setText("");
+            redTeamFields[i][2].setText("");
+            greenTeamFields[i][0].setText("");
+            greenTeamFields[i][1].setText("");
+            greenTeamFields[i][2].setText("");
+        }
     }
 
     private class SubmitButtonListener implements ActionListener {
