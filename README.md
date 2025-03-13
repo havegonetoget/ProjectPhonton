@@ -9,6 +9,9 @@ sudo apt install default-jre
 sudo apt install default-jdk
 The main script will prompt the user to see if there should be a change of the newtowrk where broadcast will take place (answer with Y/N) and then load a player enerty screen that will allow for users to put in playerID, codename, and equipment numbers. Once the desired feilds are entered the user will hit submit to pass the player entry screen to the software and then hit the start game button to signal the server to begin the game. There is no access to a SQL database so there will be an issue with putting and recieving SQL data. So far there are is no additional software required other than having both python3 and JavaJDK availble to run the program and python script. 
 
+NEED TO WRITE ABOUT INSTALLING POSTGRESQL AND SET UP TO ALLOW FOR LINK FOR DB AND SOFTWARE
+ALSO MUST REFERENCE AS A LIBARARY 
+
 --------- Team Members ---------
 EthanGreen-16:       Ethan Green
 havegonetoget:       Russell Van Norman
