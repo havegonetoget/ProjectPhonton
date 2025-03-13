@@ -12,8 +12,9 @@ import java.awt.Font;
 
 public class GameCountdown{
 
-    public static void main(String[] Args){
+    public static void main (String[] Args){
         showGameCountdown();
+         
     }
 
     public static void showGameCountdown() {

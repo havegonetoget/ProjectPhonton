@@ -10,6 +10,7 @@ import java.sql.SQLException;
 //UDP server to listen for game-related messages
 public class UDPServer {
     private static final int RECEIVE_PORT = 7501;
+    
 
     //main mehtod that starts the UDP server
     public static void main(String[] args) throws IOException {
@@ -25,6 +26,7 @@ public class UDPServer {
             //create a datagram packet to recive data
             DatagramPacket packet = new DatagramPacket(receiveBuffer, receiveBuffer.length);
             socket.receive(packet); //wait for incoming data
+            System.out.println("waiting for message");
 
             //converts recived bytes into a string
             String receivedData = new String(packet.getData(), 0, packet.getLength());

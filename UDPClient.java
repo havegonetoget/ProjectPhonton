@@ -9,6 +9,7 @@ import java.util.Scanner;
 public class UDPClient {
     private static String BROADCAST_IP = "127.0.0.1"; // Localhost
     private static int BROADCAST_PORT = 7500;
+    private static int RECEIVE_PORT = 7501; 
 
     public static void changeNetwork(){  
          //Check if the user would like the change IP networks

@@ -9,6 +9,16 @@ public class Main {
         Main mainApp = new Main(); //makes instance of main
         
         
+        // Start the UDP Server in a separate thread
+           new Thread(() -> {
+            try {
+                UDPServer.main(new String[0]);  // Start UDP Server
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
+
+        
         // Show the splash screen
         SplashScreen.showSplashScreen();
 
@@ -17,14 +27,8 @@ public class Main {
             new PlayerEntryScreen(mainApp);  //pass instance of main to player entry screen
         });
 
-        // Start the UDP Server in a separate thread
-        new Thread(() -> {
-            try {
-                UDPServer.main(new String[0]);  // Start UDP Server
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }).start();
+        
+     
 
         
 
@@ -38,13 +42,13 @@ public class Main {
             e.printStackTrace();
         }
 
-       
+   
 
          
     }
 
 
-    public void startGameSim() {
+    public static void startGameSim() {
         new Thread(() -> {
             runPythonTrafficGenerator();  // This method will run the Python script
         }).start(); 
@@ -67,7 +71,7 @@ public class Main {
                 System.out.println("Python Simulator Output: " + line);
             }
 
-            // Wait for the Python script to finish (optional, based on your needs)
+            // Wait for the Python script to finish 
             process.waitFor();  // This line ensures the main method waits for the Python script to finish
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();

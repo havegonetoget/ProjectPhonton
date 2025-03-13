@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +16,21 @@ public class PlayerEntryScreen extends JFrame {
         setTitle("Player Entry");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 600);
+
+        setFocusable(true);
+        requestFocusInWindow();
+
+        // Use key bindings instead of key listener to handle F12 key.
+        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F12, 0), "clearEntries");
+        getRootPane().getActionMap().put("clearEntries", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clearPlayerEntries();
+            }
+        });
+
+        
+
 
         JPanel mainPanel = new JPanel(new GridLayout(1, 2, 10, 10));
 
@@ -73,16 +87,8 @@ public class PlayerEntryScreen extends JFrame {
         startButton.addActionListener(new StartButtonListener());
         clearButton.addActionListener(e -> clearPlayerEntries());
 
-        addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_F12) {
-                    clearPlayerEntries();
-                }
-            }
-        });
-        setFocusable(true);
-        requestFocusInWindow();
+
+      
 
         setVisible(true);
     }
@@ -130,7 +136,17 @@ public class PlayerEntryScreen extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
+                
                 UDPClient.sendMessage("202");
+                 
+                new Thread(() -> {
+                    try {
+                       GameCountdown.main(null); //start the gamecount down 
+                    } catch (Error ep) {
+                        ep.printStackTrace();
+                    }
+                }).start();
+
                 new GameProgressScreen(redTeamList, greenTeamList);
                 dispose();
             } catch (IOException ioException) {

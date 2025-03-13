@@ -4,8 +4,9 @@ import time
 import sys
 
 bufferSize  = 1024
-serverAddressPort   = ("127.0.0.1", 7500)
-clientAddressPort   = ("127.0.0.1", 7501)
+serverAddressPort   = ("127.0.0.1", 7501)
+clientAddresstransPort = ("127.0.0.1", 7502)
+clientAddressPort   = ("127.0.0.1", 7500)
 
 
 print('this program will generate some test traffic for 2 players on the red ')
@@ -22,7 +23,8 @@ UDPServerSocketReceive = socket.socket(family=socket.AF_INET, type=socket.SOCK_D
 UDPClientSocketTransmit = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
 
 # bind server socket
-UDPServerSocketReceive.bind(serverAddressPort)
+UDPServerSocketReceive.bind(clientAddressPort)
+UDPClientSocketTransmit.bind(clientAddresstransPort)
 
 UDPServerSocketReceive.settimeout(30)
 
@@ -68,7 +70,7 @@ while True:
 		
 	print("transmitting to game: " + message)
 	
-	UDPClientSocketTransmit.sendto(str.encode(str(message)), clientAddressPort) #changed to server from client
+	UDPClientSocketTransmit.sendto(str.encode(str(message)), serverAddressPort) #changed to server from client
 	# receive answer from game softare
 	
 	
