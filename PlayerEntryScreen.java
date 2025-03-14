@@ -4,6 +4,9 @@ import java.awt.event.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
 
 public class PlayerEntryScreen extends JFrame {
     private JTextField[][] redTeamFields;
@@ -73,10 +76,8 @@ public class PlayerEntryScreen extends JFrame {
 
         JPanel controlPanel = new JPanel();
         JButton submitButton = new JButton("Submit");
-        JButton startButton = new JButton("Start Game");
         JButton clearButton = new JButton("Clear Entries");
         controlPanel.add(submitButton);
-        controlPanel.add(startButton);
         controlPanel.add(clearButton);
 
         getContentPane().setLayout(new BorderLayout(10, 10));
@@ -84,10 +85,24 @@ public class PlayerEntryScreen extends JFrame {
         getContentPane().add(controlPanel, BorderLayout.SOUTH);
 
         submitButton.addActionListener(new SubmitButtonListener());
-        startButton.addActionListener(new StartButtonListener());
         clearButton.addActionListener(e -> clearPlayerEntries());
 
-
+        //Press "]" to start game (F5 Equivalent)
+        addKeyListener(new KeyAdapter() {
+        @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_CLOSE_BRACKET) {
+                    try {
+                        UDPClient.sendMessage("202");
+                    } catch (IOException ex) {
+                        ex.getMessage();
+                    }
+                    dispose();
+                }
+            }
+        });
+        setFocusable(true);
+        requestFocusInWindow(); 
       
 
         setVisible(true);
