@@ -21,10 +21,10 @@ sourceSets {
 
 jar {
     from 'src'
-    include 'DatabaseConnection.java'
+    include 'Main.java'
 }
 
 task run(type: JavaExec) {
-    main = 'DatabaseConnection'
+    main = 'Main'
     classpath = sourceSets.main.runtimeClasspath
 }
