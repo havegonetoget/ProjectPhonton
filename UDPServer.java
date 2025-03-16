@@ -46,7 +46,7 @@ public class UDPServer {
 
     //received message and updates the game database accordingly
     private static void processMessage(String message) {
-        try (Connection conn = DatabaseConnection.getConnection()) {
+        try  {
             if (message.equals("202")) {
                 System.out.println("Game Start!");
             } else if (message.equals("221")) {
@@ -80,31 +80,31 @@ public class UDPServer {
 
     //update the score 
     private static void updateScore(int playerID, int points) {
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement("UPDATE players SET score = score + ? WHERE id = ?")) {
-            stmt.setInt(1, points);
-            stmt.setInt(2, playerID);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//        try (Connection conn = DatabaseConnection.getConnection();
+//             PreparedStatement stmt = conn.prepareStatement("UPDATE players SET score = score + ? WHERE id = ?")) {
+//            stmt.setInt(1, points);
+//            stmt.setInt(2, playerID);
+//            stmt.executeUpdate();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
     }
 
     //adds 100 points to all players on the scoring team when a base is scored
     private static void addBaseScore(String team) {
-        try (Connection conn = DatabaseConnection.getConnection()) {
-            int points = 100;
-            String query = "UPDATE players SET score = score + ? WHERE team = ?";
-
-            try (PreparedStatement stmt = conn.prepareStatement(query)) {
-                stmt.setInt(1, points);
-                stmt.setString(2, team);
-                stmt.executeUpdate();
-            }
-
-            System.out.println(team.toUpperCase() + " base scored!");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//        try (Connection conn = DatabaseConnection.getConnection()) {
+//            int points = 100;
+//            String query = "UPDATE players SET score = score + ? WHERE team = ?";
+//
+//            try (PreparedStatement stmt = conn.prepareStatement(query)) {
+//                stmt.setInt(1, points);
+//                stmt.setString(2, team);
+//                stmt.executeUpdate();
+//            }
+//
+//            System.out.println(team.toUpperCase() + " base scored!");
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
     }
 }
