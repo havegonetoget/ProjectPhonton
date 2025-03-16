@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.SQLException;
 
 
 public class Main {
@@ -8,7 +9,19 @@ public class Main {
         
         Main mainApp = new Main(); //makes instance of main
         
-        
+        // Get Connection to the database
+		DatabaseConnection.getConnection();
+        if(DatabaseConnection.connection != null){
+            try{
+                if(DatabaseConnection.connection.isValid(2)){
+                    System.out.println("DB connection Valid");
+                } else {
+                    System.out.println("DB connection InValid");
+                }
+            } catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
         // Start the UDP Server in a separate thread
            new Thread(() -> {
             try {
@@ -78,4 +91,6 @@ public class Main {
         }
     } 
 }
+
+
 
