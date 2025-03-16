@@ -9,20 +9,20 @@ public class DatabaseConnection {
     private static final String URL = "jdbc:postgresql://localhost:5432/photon"; 
     private static final String USER = "student";
     private static final String PASS = "student";
+    public static Connection connection;
    
 
     //establishes a connection
-    public static Connection getConnection() {
+    public static void getConnection() {
         try {
-            return DriverManager.getConnection(URL, USER, PASS);
+            connection = DriverManager.getConnection(URL, USER, PASS);
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
         }
     }
 
     public static void main(String[] args){
-        Connection connection = getConnection(); 
+        getConnection(); 
         if(connection != null){
             try{
                 if(connection.isValid(2)){
@@ -36,3 +36,4 @@ public class DatabaseConnection {
         }
     }
 }
+
