@@ -76,8 +76,10 @@ public class PlayerEntryScreen extends JFrame {
 
         JPanel controlPanel = new JPanel();
         JButton submitButton = new JButton("Submit");
+        JButton startButton = new JButton("Start Game");
         JButton clearButton = new JButton("Clear Entries");
         controlPanel.add(submitButton);
+        controlPanel.add(startButton);
         controlPanel.add(clearButton);
 
         getContentPane().setLayout(new BorderLayout(10, 10));
@@ -85,6 +87,7 @@ public class PlayerEntryScreen extends JFrame {
         getContentPane().add(controlPanel, BorderLayout.SOUTH);
 
         submitButton.addActionListener(new SubmitButtonListener());
+        startButton.addActionListener(new StartButtonListener());
         clearButton.addActionListener(e -> clearPlayerEntries());
 
         //Press "]" to start game (F5 Equivalent)
