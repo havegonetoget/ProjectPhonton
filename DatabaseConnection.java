@@ -7,8 +7,8 @@ import java.io.PrintStream.*;
 //database connecting class
 public class DatabaseConnection {
     private static final String URL = "jdbc:postgresql://localhost:5432/photon"; 
-    private static final String USER = "postgres";
-    private static final String PASS = "password";
+    private static final String USER = "student";
+    private static final String PASS = "student";
    
 
     //establishes a connection
