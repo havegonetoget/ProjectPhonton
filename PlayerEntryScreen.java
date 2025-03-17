@@ -165,7 +165,7 @@ public class PlayerEntryScreen extends JFrame {
                     }
                 }).start();
 
-                new GameProgressScreen(redTeamList, greenTeamList);
+                //new GameProgressScreen(redTeamList, greenTeamList);
                 dispose();
             } catch (IOException ioException) {
                 ioException.printStackTrace();
