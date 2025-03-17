@@ -8,20 +8,22 @@ import java.awt.image.BufferedImage;
 import java.awt.GridBagLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 public class GameCountdown {
 
     public static void main(String[] Args) {
-        showGameCountdown();
+        // For testing purposes, if no team data is provided, use dummy data.
+        showGameCountdown(null, null);
     }
 
-    public static void showGameCountdown() {
+    // Modified method: accepts team data as parameters.
+    public static void showGameCountdown(List<String[]> redTeam, List<String[]> greenTeam) {
         // Create the window for displaying
         JWindow window = new JWindow();
         JLabel countdownLabel = new JLabel();
-        
+
         try {
             // Load the image from a file
             File backgroundfile = new File("background.jpg");
@@ -43,11 +45,11 @@ public class GameCountdown {
 
             // Add the iconLabel to the window
             window.getContentPane().add(iconLabel);
-            
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
+
         // Make the window centered, to the front, and visible
         window.setLocationRelativeTo(null);
         window.toFront();
@@ -66,16 +68,16 @@ public class GameCountdown {
         // Make window no longer visible and dispose of it
         window.setVisible(false);
         window.dispose();
-        
-        // Create dummy data for the teams (replace with actual data as needed)
-        List<String[]> redTeam = new ArrayList<>();
-        List<String[]> greenTeam = new ArrayList<>();
-        
-        // Example entries: {playerID, name, equipment}
-        redTeam.add(new String[]{"1", "RedPlayer1", "Equip1"});
-        greenTeam.add(new String[]{"2", "GreenPlayer1", "Equip2"});
-        
-        // Launch the Game Progress Screen
+
+        // If no team data was provided, use dummy data
+        if (redTeam == null || greenTeam == null) {
+            redTeam = new ArrayList<>();
+            greenTeam = new ArrayList<>();
+            redTeam.add(new String[]{"1", "RedPlayer1", "Equip1"});
+            greenTeam.add(new String[]{"2", "GreenPlayer1", "Equip2"});
+        }
+
+        // Launch the Game Progress Screen with the provided team data.
         new GameProgressScreen(redTeam, greenTeam);
     }
 }
