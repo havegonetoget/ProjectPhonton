@@ -4,8 +4,6 @@ import java.awt.event.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 
 public class PlayerEntryScreen extends JFrame {
@@ -151,25 +149,25 @@ public class PlayerEntryScreen extends JFrame {
     }
 
     private class StartButtonListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            try {
-                
-                UDPClient.sendMessage("202");
-                 
-                new Thread(() -> {
-                    try {
-                       GameCountdown.main(null); //start the gamecount down 
-                    } catch (Error ep) {
-                        ep.printStackTrace();
-                    }
-                }).start();
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        try {
+            UDPClient.sendMessage("202");
 
-                //new GameProgressScreen(redTeamList, greenTeamList);
-                dispose();
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
+            new Thread(() -> {
+                try {
+                    // Pass the collected team data from the player entry screen
+                    GameCountdown.showGameCountdown(redTeamList, greenTeamList);
+                } catch (Error ep) {
+                    ep.printStackTrace();
+                }
+            }).start();
+
+            // Removed the duplicate instantiation of GameProgressScreen.
+            dispose();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
         }
     }
+}
 }
