@@ -94,20 +94,6 @@ public class PlayerEntryScreen extends JFrame {
         startButton.addActionListener(e -> startGame());
         clearButton.addActionListener(e -> clearPlayerEntries());
 
-        //Press "F5" to start game (F5 Equivalent)
-        addKeyListener(new KeyAdapter() {
-        @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_CLOSE_BRACKET) {
-                    try {
-                        UDPClient.sendMessage("202");
-                    } catch (IOException ex) {
-                        ex.getMessage();
-                    }
-                    dispose();
-                }
-            }
-        });
         setFocusable(true);
         requestFocusInWindow(); 
       
