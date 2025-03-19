@@ -29,10 +29,16 @@ public class PlayerEntryScreen extends JFrame {
                 clearPlayerEntries();
             }
         });
-
         
-
-
+		// Use key bindings instead of key listener to handle F6 key.
+        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0), "startGame");
+        getRootPane().getActionMap().put("startGame", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                startGame();
+            }
+        });
+        
         JPanel mainPanel = new JPanel(new GridLayout(1, 2, 10, 10));
 
         JPanel redTeamPanel = new JPanel(new GridLayout(SLOTS_PER_TEAM + 1, 3, 5, 5));
@@ -73,9 +79,9 @@ public class PlayerEntryScreen extends JFrame {
         mainPanel.add(greenTeamPanel);
 
         JPanel controlPanel = new JPanel();
-        JButton submitButton = new JButton("Submit");
-        JButton startButton = new JButton("Start Game");
-        JButton clearButton = new JButton("Clear Entries");
+        JButton submitButton = new JButton("Save Entries");
+        JButton startButton = new JButton("Start Game (F6)");
+        JButton clearButton = new JButton("Clear Entries (F12)");
         controlPanel.add(submitButton);
         controlPanel.add(startButton);
         controlPanel.add(clearButton);
@@ -85,10 +91,10 @@ public class PlayerEntryScreen extends JFrame {
         getContentPane().add(controlPanel, BorderLayout.SOUTH);
 
         submitButton.addActionListener(new SubmitButtonListener());
-        startButton.addActionListener(new StartButtonListener());
+        startButton.addActionListener(e -> startGame());
         clearButton.addActionListener(e -> clearPlayerEntries());
 
-        //Press "]" to start game (F5 Equivalent)
+        //Press "F5" to start game (F5 Equivalent)
         addKeyListener(new KeyAdapter() {
         @Override
             public void keyPressed(KeyEvent e) {
@@ -148,9 +154,8 @@ public class PlayerEntryScreen extends JFrame {
         }
     }
 
-    private class StartButtonListener implements ActionListener {
-    @Override
-    public void actionPerformed(ActionEvent e) {
+
+    public void startGame() {
         try {
             UDPClient.sendMessage("202");
 
@@ -169,5 +174,4 @@ public class PlayerEntryScreen extends JFrame {
             ioException.printStackTrace();
         }
     }
-}
 }
