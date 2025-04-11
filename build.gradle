@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+    implementation "org.postgresql:postgresql:42.5.0"
+    testImplementation 'junit:junit:4.13.2'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir '.'
+        }
+    }
+}
+
+jar {
+    from 'src'
+    include 'Main.java'
+}
+
+task run(type: JavaExec) {
+    main = 'Main'
+    classpath = sourceSets.main.runtimeClasspath
+}
