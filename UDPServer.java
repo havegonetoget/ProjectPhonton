@@ -51,8 +51,6 @@ public class UDPServer {
                 System.out.println("Game Start!");
             } else if (message.equals("221")) {
                 System.out.println("Game Over!");
-            } else if (message.equals("333")){
-                GameProgressScreen gps = new GameProgressScreen(redTeam, greenTeam); 
             } else if (message.contains(":")) {
                 String[] parts = message.split(":");
                 int attackerID = Integer.parseInt(parts[0]);
