@@ -22,14 +22,14 @@ public class Main {
                 e.printStackTrace();
             }
         }
-        // Start the UDP Server in a separate thread
+       /* Start the UDP Server in a separate thread
            new Thread(() -> {
             try {
                 UDPServer.main(new String[0]);  // Start UDP Server
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }).start();
+        }).start(); */
 
         
         // Show the splash screen
@@ -60,8 +60,8 @@ public class Main {
          
     }
 
-
-    public static void startGameSim() {
+//This part is not integral at the moment of working the project 
+/*    public static void startGameSim() {
         new Thread(() -> {
             runPythonTrafficGenerator();  // This method will run the Python script
         }).start(); 
@@ -88,9 +88,5 @@ public class Main {
             process.waitFor();  // This line ensures the main method waits for the Python script to finish
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
-        }
-    } 
+        } */
 }
-
-
-
