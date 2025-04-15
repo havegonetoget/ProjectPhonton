@@ -5,13 +5,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GameProgressScreen extends JFrame {
-    // Maps to store each player's JLabel for dynamic updates.
-    private Map<String, JLabel> redPlayerLabels = new HashMap<>();
-    private Map<String, JLabel> greenPlayerLabels = new HashMap<>();
-    
+    // Maps to store each player's JLabel by equipment ID for dynamic updates.
+    private Map<String, JLabel> redEquipmentLabels = new HashMap<>();
+    private Map<String, JLabel> greenEquipmentLabels = new HashMap<>();
+
     // Event log text area.
     private JTextArea eventLogArea;
-    
+
     // Timer label and countdown time in seconds.
     private JLabel timerLabel;
     private int timeRemaining = 360; // 6 minutes in seconds
@@ -20,7 +20,6 @@ public class GameProgressScreen extends JFrame {
         setTitle("Game Progress");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 600);
-        // Use BorderLayout: North = scoreboard, Center = event log, South = timer.
         setLayout(new BorderLayout(10, 10));
 
         // --- North Section: Scoreboard ---
@@ -32,13 +31,13 @@ public class GameProgressScreen extends JFrame {
         redPanel.setLayout(new BoxLayout(redPanel, BoxLayout.Y_AXIS));
         redPanel.setBorder(BorderFactory.createTitledBorder("Red Team"));
         for (String[] player : redTeam) {
-            // Expected player array: {playerId, playerName, equipment info}
             String playerId = player[0];
             String playerName = player[1];
+            String equipmentId = player[2];
             JLabel label = new JLabel("ID:" + playerId + " | Name:" + playerName + " | Score:0");
             label.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
             redPanel.add(label);
-            redPlayerLabels.put(playerId, label);
+            redEquipmentLabels.put(equipmentId, label);
         }
 
         // Green Team scoreboard panel
@@ -48,12 +47,13 @@ public class GameProgressScreen extends JFrame {
         for (String[] player : greenTeam) {
             String playerId = player[0];
             String playerName = player[1];
+            String equipmentId = player[2];
             JLabel label = new JLabel("ID:" + playerId + " | Name:" + playerName + " | Score:0");
             label.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
             greenPanel.add(label);
-            greenPlayerLabels.put(playerId, label);
+            greenEquipmentLabels.put(equipmentId, label);
         }
-        
+
         scoreboardPanel.add(redPanel);
         scoreboardPanel.add(greenPanel);
         add(scoreboardPanel, BorderLayout.NORTH);
@@ -78,19 +78,13 @@ public class GameProgressScreen extends JFrame {
         // Start the countdown timer in a new thread.
         new Thread(this::startCountdownTimer).start();
     }
-    
-    /**
-     * Formats seconds into a mm:ss string.
-     */
+
     private String formatTime(int totalSeconds) {
         int minutes = totalSeconds / 60;
         int seconds = totalSeconds % 60;
         return String.format("%d:%02d", minutes, seconds);
     }
 
-    /**
-     * Countdown timer that updates the timer label every second.
-     */
     private void startCountdownTimer() {
         for (int i = timeRemaining; i >= 0; i--) {
             final int secondsLeft = i;
@@ -103,19 +97,13 @@ public class GameProgressScreen extends JFrame {
         }
     }
 
-    /**
-     * Updates a player's label to show or remove the base indicator (" [B]").
-     * @param team     The team ("red" or "green")
-     * @param playerId The player's ID as a String
-     * @param inBase   True if the player is in base; false otherwise.
-     */
-    public void updatePlayerBaseStatus(String team, String playerId, boolean inBase) {
+    public void updatePlayerBaseStatus(String team, String equipId, boolean inBase) {
         SwingUtilities.invokeLater(() -> {
             JLabel label = null;
             if ("red".equalsIgnoreCase(team)) {
-                label = redPlayerLabels.get(playerId);
+                label = redEquipmentLabels.get(equipId);
             } else if ("green".equalsIgnoreCase(team)) {
-                label = greenPlayerLabels.get(playerId);
+                label = greenEquipmentLabels.get(equipId);
             }
             if (label != null) {
                 String text = label.getText();
@@ -130,29 +118,21 @@ public class GameProgressScreen extends JFrame {
         });
     }
 
-    /**
-     * Updates the displayed score for a player.
-     * @param team     The team ("red" or "green")
-     * @param playerId The player's ID as a String
-     * @param newScore The new score value.
-     */
-    public void updateScore(String team, String playerId, int newScore) {
+    public void updateScore(String team, String equipId, int newScore) {
         SwingUtilities.invokeLater(() -> {
             JLabel label = null;
             if ("red".equalsIgnoreCase(team)) {
-                label = redPlayerLabels.get(playerId);
+                label = redEquipmentLabels.get(equipId);
             } else if ("green".equalsIgnoreCase(team)) {
-                label = greenPlayerLabels.get(playerId);
+                label = greenEquipmentLabels.get(equipId);
             }
             if (label != null) {
-                // Assume the original label text is: "ID:playerId | Name:playerName | Score:oldScore" possibly with a " [B]"
                 String baseText = label.getText();
                 boolean hasBase = false;
                 if (baseText.contains(" [B]")) {
                     hasBase = true;
                     baseText = baseText.replace(" [B]", "");
                 }
-                // Split the base text into parts.
                 String[] parts = baseText.split("\\|");
                 if (parts.length >= 3) {
                     String newText = parts[0].trim() + " | " + parts[1].trim() + " | Score:" + newScore;
@@ -165,17 +145,11 @@ public class GameProgressScreen extends JFrame {
         });
     }
 
-    /**
-     * Appends a game event message to the event log.
-     * @param message The event message to log.
-     */
     public void logEvent(String message) {
         SwingUtilities.invokeLater(() -> eventLogArea.append(message + "\n"));
     }
 
-    // A simple main method to test the features.
     public static void main(String[] args) {
-        // Dummy team data (each array: {playerId, playerName, equipment info})
         List<String[]> redTeam = List.of(
             new String[]{"1", "RedPlayer1", "Equip1"},
             new String[]{"2", "RedPlayer2", "Equip2"}
@@ -187,19 +161,18 @@ public class GameProgressScreen extends JFrame {
 
         GameProgressScreen gps = new GameProgressScreen(redTeam, greenTeam);
 
-        // Simulate some game events for testing.
         try {
             Thread.sleep(2000);
-            gps.logEvent("RedPlayer1 scores!");  
-            gps.updateScore("red", "1", 10);
-            
+            gps.logEvent("RedPlayer1 scores!");
+            gps.updateScore("red", "Equip1", 10);
+
             Thread.sleep(2000);
             gps.logEvent("GreenPlayer2 enters base.");
-            gps.updatePlayerBaseStatus("green", "4", true);
-            
+            gps.updatePlayerBaseStatus("green", "Equip4", true);
+
             Thread.sleep(2000);
             gps.logEvent("GreenPlayer2 leaves base.");
-            gps.updatePlayerBaseStatus("green", "4", false);
+            gps.updatePlayerBaseStatus("green", "Equip4", false);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
