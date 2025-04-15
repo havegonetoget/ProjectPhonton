@@ -81,7 +81,11 @@ public class GameCountdown {
         }
 
         // Launch the Game Progress Screen with the provided team data.
-        new GameProgressScreen(redTeam, greenTeam);
+        try{
+            UDPClient.sendMessage("333");
+        } catch (IOException ep) {
+            ep.printStackTrace; 
+        }
 
         try{
         UDPClient.sendMessage("202");
