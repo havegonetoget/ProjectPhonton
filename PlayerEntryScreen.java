@@ -178,8 +178,7 @@ public class PlayerEntryScreen extends JFrame {
     }
 
     public void startGame() {
-        try {
-            UDPClient.sendMessage("202");
+       
 
             new Thread(() -> {
                 try {
@@ -192,8 +191,6 @@ public class PlayerEntryScreen extends JFrame {
 
             // Removed the duplicate instantiation of GameProgressScreen.
             dispose();
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
+       
     }
 }
