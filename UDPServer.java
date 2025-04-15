@@ -10,10 +10,11 @@ import java.sql.SQLException;
 //UDP server to listen for game-related messages
 public class UDPServer {
     private static final int RECEIVE_PORT = 7501;
+    private static GameProgressScreen gps; 
     
 
     //main mehtod that starts the UDP server
-    public static void main(String[] args) throws IOException {
+    public static void main(GameProgressScreen gps) throws IOException {
        DatagramSocket socket = null; 
        try {
         //create udp socket that listens on port 7501
@@ -58,14 +59,23 @@ public class UDPServer {
 
                 //determine if it was a friendly fire hit or an opponent hit
                 int points = (isSameTeam(attackerID, hitPlayerID)) ? -10 : 10;
-                updateScore(hitPlayerID, points);
+               
+                
 
                 System.out.println("Player " + attackerID + " hit Player " + hitPlayerID);
                 UDPClient.sendMessage(String.valueOf(hitPlayerID)); // Send hit response
+                System.out.println("Player " + attackerID + " hit Player " + hitPlayerID);
+            UDPClient.sendMessage(String.valueOf(hitPlayerID));
+
+            
+               gps.updateScore();  // replace with actual method call and need to updaste how call works. 
+             
+        
+        
             } else if (message.equals("53")) {
-                addBaseScore("red");
+                
             } else if (message.equals("43")) {
-                addBaseScore("green");
+               
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -78,33 +88,4 @@ public class UDPServer {
         return false;
     }
 
-    //update the score 
-    private static void updateScore(int playerID, int points) {
-//        try (Connection conn = DatabaseConnection.getConnection();
-//             PreparedStatement stmt = conn.prepareStatement("UPDATE players SET score = score + ? WHERE id = ?")) {
-//            stmt.setInt(1, points);
-//            stmt.setInt(2, playerID);
-//            stmt.executeUpdate();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-    }
-
-    //adds 100 points to all players on the scoring team when a base is scored
-    private static void addBaseScore(String team) {
-//        try (Connection conn = DatabaseConnection.getConnection()) {
-//            int points = 100;
-//            String query = "UPDATE players SET score = score + ? WHERE team = ?";
-//
-//            try (PreparedStatement stmt = conn.prepareStatement(query)) {
-//                stmt.setInt(1, points);
-//                stmt.setString(2, team);
-//                stmt.executeUpdate();
-//            }
-//
-//            System.out.println(team.toUpperCase() + " base scored!");
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-    }
 }
