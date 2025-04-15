@@ -84,7 +84,7 @@ public class GameCountdown {
         try{
             UDPClient.sendMessage("333");
         } catch (IOException ep) {
-            ep.printStackTrace; 
+            ep.printStackTrace(); 
         }
 
         try{
