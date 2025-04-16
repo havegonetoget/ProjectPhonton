@@ -7,6 +7,8 @@ This project requires the use of a either a virual or local machine to run. A vi
 
 The main script will prompt the user to see if there should be a change of the newtowrk where broadcast will take place (answer with Y/N) and then load a player enerty screen that will allow for users to put in playerID, codename, and equipment numbers. Once the desired feilds are entered the user will hit. The save button will save the playerID's to the database and get them for future games. Clear will clear all the entries inthe player entry screen. Once ready hit the start game button to signal the server to begin the game where a 30 second countdown to start the game happens and then the game progress screen will pop up to show players and there scores.
 
+There is an issue with the .wav files that when compressed they lose all of their data. To get Sound functionality working, downloading the .wav files seperately and put them into the photon_tracks folder.
+
 
 
 --------- Team Members ---------
