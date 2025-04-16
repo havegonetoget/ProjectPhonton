@@ -54,21 +54,17 @@ public class UDPServer {
                 System.out.println("Game Over!");
             } else if (message.contains(":")) {
                 String[] parts = message.split(":");
-                int attackerID = Integer.parseInt(parts[0]);
-                int hitPlayerID = Integer.parseInt(parts[1]);
+                String attackerEquipId = parts[0];
+                String targetEquipId = parts[1];
 
-                //determine if it was a friendly fire hit or an opponent hit
-                int points = (isSameTeam(attackerID, hitPlayerID)) ? -10 : 10;
-               
-                
+        // Log raw info
+         System.out.println("Equipment " + attackerEquipId + " hit Equipment " + targetEquipId);
 
-                System.out.println("Player " + attackerID + " hit Player " + hitPlayerID);
-                UDPClient.sendMessage(String.valueOf(hitPlayerID)); // Send hit response
-               
+        // Tell client the target was hit (optional)
+        UDPClient.sendMessage(targetEquipId);
 
-            
-               gps.updateScoreByEquipId(message, 10);
-             
+        // Handle scoring and logging
+        gps.processHit(attackerEquipId, targetEquipId);
         
         
             } else if (message.equals("53")) {
@@ -81,10 +77,7 @@ public class UDPServer {
         }
     }
     
-    //check if two players on the same team
-    private static boolean isSameTeam(int attackerID, int hitPlayerID) {
-        // Placeholder function: implement logic to check teams from DB
-        return false;
-    }
+   
+   
 
 }
