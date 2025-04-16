@@ -97,22 +97,20 @@ public class GameProgressScreen extends JFrame {
         }
     }
 
-    public void updatePlayerBaseStatus(String team, String equipId, boolean inBase) {
+    public void markPlayerAsBaseHitter(String equipId) {
         SwingUtilities.invokeLater(() -> {
             JLabel label = null;
+            String team = getTeamOfEquipId(equipId);
             if ("red".equalsIgnoreCase(team)) {
                 label = redEquipmentLabels.get(equipId);
             } else if ("green".equalsIgnoreCase(team)) {
                 label = greenEquipmentLabels.get(equipId);
             }
+    
             if (label != null) {
                 String text = label.getText();
-                if (inBase) {
-                    if (!text.contains(" [B]")) {
-                        label.setText(text + " [B]");
-                    }
-                } else {
-                    label.setText(text.replace(" [B]", ""));
+                if (!text.contains(" [B]")) {
+                    label.setText(text + " [B]");
                 }
             }
         });
@@ -197,35 +195,6 @@ public class GameProgressScreen extends JFrame {
             return "green";
         }
         return null;
-    }
-
-    public static void main(String[] args) {
-        List<String[]> redTeam = List.of(
-            new String[]{"1", "RedPlayer1", "Equip1"},
-            new String[]{"2", "RedPlayer2", "Equip2"}
-        );
-        List<String[]> greenTeam = List.of(
-            new String[]{"3", "GreenPlayer1", "Equip3"},
-            new String[]{"4", "GreenPlayer2", "Equip4"}
-        );
-
-        GameProgressScreen gps = new GameProgressScreen(redTeam, greenTeam);
-
-        try {
-            Thread.sleep(2000);
-            gps.logEvent("RedPlayer1 scores!");
-            gps.updateScore("red", "Equip1", 10);
-
-            Thread.sleep(2000);
-            gps.logEvent("GreenPlayer2 enters base.");
-            gps.updatePlayerBaseStatus("green", "Equip4", true);
-
-            Thread.sleep(2000);
-            gps.logEvent("GreenPlayer2 leaves base.");
-            gps.updatePlayerBaseStatus("green", "Equip4", false);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
    
