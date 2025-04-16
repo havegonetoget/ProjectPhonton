@@ -3,6 +3,7 @@ import java.awt.*;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
+import java.io.IOException;
 
 public class GameProgressScreen extends JFrame {
     // Maps to store each player's JLabel by equipment ID for dynamic updates.
@@ -98,6 +99,15 @@ public class GameProgressScreen extends JFrame {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            if (secondsLeft == 0) {
+				try {
+					UDPClient.sendMessage("221");
+					UDPClient.sendMessage("221");
+					UDPClient.sendMessage("221");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
         }
     }
 
@@ -220,5 +230,5 @@ public class GameProgressScreen extends JFrame {
             return "green";
         }
         return null;
-
-
+    }
+}
