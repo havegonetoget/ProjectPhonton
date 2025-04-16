@@ -116,7 +116,24 @@ public class GameProgressScreen extends JFrame {
                 if (!text.contains(" [B]")) {
                     label.setText(text + " [B]");
                     String codename = equipIDToCodename.getOrDefault(equipId, equipId);
-                    logEvent("Base hit!" + codename + "(EquipID: )" + equipId + ") hit the base!" );
+                    logEvent("Base hit! " + codename + " hit the base!" );
+					String attackerTeam = getTeamOfEquipId(equipId);
+                    JLabel attackerLabel = attackerTeam.equals("red") ? redEquipmentLabels.get(equipId) : greenEquipmentLabels.get(equipId);
+                    String labelText = attackerLabel.getText().replace(" [B]", "");
+					String[] parts = labelText.split("\\|");
+					int currentScore = 0;
+					if (parts.length >= 3) {
+						try {
+							currentScore = Integer.parseInt(parts[2].trim().split(":")[1]);
+						} catch (NumberFormatException e) {
+							logEvent("Failed to parse score for: " + equipId);
+						}
+					}
+                    
+                    int scoreChange = 100;
+					int newScore = currentScore + scoreChange;
+
+					updateScore(attackerTeam, equipId, newScore);
                 }
             }
         });
@@ -203,8 +220,5 @@ public class GameProgressScreen extends JFrame {
             return "green";
         }
         return null;
-    }
 
-   
-}
 
