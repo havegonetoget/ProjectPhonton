@@ -149,6 +149,16 @@ public class GameProgressScreen extends JFrame {
         SwingUtilities.invokeLater(() -> eventLogArea.append(message + "\n"));
     }
 
+      public void updateScoreByEquipId(String equipId, int newScore) {
+        if (redEquipmentLabels.containsKey(equipId)) {
+            updateScore("red", equipId, newScore);
+        } else if (greenEquipmentLabels.containsKey(equipId)) {
+            updateScore("green", equipId, newScore);
+        } else {
+            System.err.println("Unknown equipment ID: " + equipId);
+        }
+    }
+
     public static void main(String[] args) {
         List<String[]> redTeam = List.of(
             new String[]{"1", "RedPlayer1", "Equip1"},
