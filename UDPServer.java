@@ -64,11 +64,10 @@ public class UDPServer {
 
                 System.out.println("Player " + attackerID + " hit Player " + hitPlayerID);
                 UDPClient.sendMessage(String.valueOf(hitPlayerID)); // Send hit response
-                System.out.println("Player " + attackerID + " hit Player " + hitPlayerID);
-            UDPClient.sendMessage(String.valueOf(hitPlayerID));
+               
 
             
-               gps.updateScore();  // replace with actual method call and need to updaste how call works. 
+               gps.updateScoreByEquipId(message, 10);
              
         
         
