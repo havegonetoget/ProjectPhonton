@@ -30,10 +30,7 @@ public class UDPClient {
     //send a message via udp to the specified brodcast port
     public static void sendMessage(String message) throws IOException {
 
-        //Check if the user would like the change IP networks
-        //Create scanner for user input
-       
-
+        
         //create a udp socket for sending data
         DatagramSocket socket = new DatagramSocket();
         InetAddress ip = InetAddress.getByName(BROADCAST_IP);
