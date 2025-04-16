@@ -145,18 +145,58 @@ public class GameProgressScreen extends JFrame {
         });
     }
 
+    public void processHit(String attackerEquipId, String targetEquipId) {
+        String attackerTeam = getTeamOfEquipId(attackerEquipId);
+        String targetTeam = getTeamOfEquipId(targetEquipId);
+    
+        if (attackerTeam == null || targetTeam == null) {
+            logEvent("Unknown equipment ID(s) in hit: " + attackerEquipId + " or " + targetEquipId);
+            return;
+        }
+    
+        // Get attacker label
+        JLabel attackerLabel = attackerTeam.equals("red") ? redEquipmentLabels.get(attackerEquipId) : greenEquipmentLabels.get(attackerEquipId);
+        if (attackerLabel == null) return;
+    
+        // Extract current score
+        String labelText = attackerLabel.getText().replace(" [B]", "");
+        String[] parts = labelText.split("\\|");
+        int currentScore = 0;
+        if (parts.length >= 3) {
+            try {
+                currentScore = Integer.parseInt(parts[2].trim().split(":")[1]);
+            } catch (NumberFormatException e) {
+                logEvent("Failed to parse score for: " + attackerEquipId);
+            }
+        }
+    
+        boolean friendlyFire = attackerTeam.equals(targetTeam);
+        int scoreChange = friendlyFire ? -10 : 10;
+        int newScore = currentScore + scoreChange;
+    
+        updateScore(attackerTeam, attackerEquipId, newScore);
+    
+        // Log what happened
+        if (friendlyFire) {
+            logEvent("Friendly fire! " + attackerEquipId + " hit teammate " + targetEquipId);
+        } else {
+            logEvent("Enemy hit! " + attackerEquipId + " hit enemy " + targetEquipId);
+        }
+    }
+    
+
     public void logEvent(String message) {
         SwingUtilities.invokeLater(() -> eventLogArea.append(message + "\n"));
-    }
-
-      public void updateScoreByEquipId(String equipId, int newScore) {
+    } 
+    
+    
+    public String getTeamOfEquipId(String equipId) {
         if (redEquipmentLabels.containsKey(equipId)) {
-            updateScore("red", equipId, newScore);
+            return "red";
         } else if (greenEquipmentLabels.containsKey(equipId)) {
-            updateScore("green", equipId, newScore);
-        } else {
-            System.err.println("Unknown equipment ID: " + equipId);
+            return "green";
         }
+        return null;
     }
 
     public static void main(String[] args) {
@@ -187,4 +227,6 @@ public class GameProgressScreen extends JFrame {
             e.printStackTrace();
         }
     }
+
+   
 }
