@@ -8,6 +8,7 @@ public class GameProgressScreen extends JFrame {
     // Maps to store each player's JLabel by equipment ID for dynamic updates.
     private Map<String, JLabel> redEquipmentLabels = new HashMap<>();
     private Map<String, JLabel> greenEquipmentLabels = new HashMap<>();
+    private Map<String, String> equipIDToCodename = new HashMap<>();
 
     // Event log text area.
     private JTextArea eventLogArea;
@@ -34,6 +35,7 @@ public class GameProgressScreen extends JFrame {
             String playerId = player[0];
             String playerName = player[1];
             String equipmentId = player[2];
+            equipIDToCodename.put(equipmentId, playerName);
             JLabel label = new JLabel("ID:" + playerId + " | Name:" + playerName + " | Score:0");
             label.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
             redPanel.add(label);
@@ -49,11 +51,13 @@ public class GameProgressScreen extends JFrame {
             String playerName = player[1];
             String equipmentId = player[2];
             JLabel label = new JLabel("ID:" + playerId + " | Name:" + playerName + " | Score:0");
+            equipIDToCodename.put(equipmentId, playerName);
             label.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
             greenPanel.add(label);
             greenEquipmentLabels.put(equipmentId, label);
         }
 
+    
         scoreboardPanel.add(redPanel);
         scoreboardPanel.add(greenPanel);
         add(scoreboardPanel, BorderLayout.NORTH);
@@ -111,6 +115,8 @@ public class GameProgressScreen extends JFrame {
                 String text = label.getText();
                 if (!text.contains(" [B]")) {
                     label.setText(text + " [B]");
+                    String codename = equipIDToCodename.getOrDefault(equipId, equipId);
+                    logEvent("Base hit!" + codename + "(EquipID: )" + equipId + ") hit the base!" );
                 }
             }
         });
@@ -146,6 +152,8 @@ public class GameProgressScreen extends JFrame {
     public void processHit(String attackerEquipId, String targetEquipId) {
         String attackerTeam = getTeamOfEquipId(attackerEquipId);
         String targetTeam = getTeamOfEquipId(targetEquipId);
+        String attackerCodename = equipIDToCodename.getOrDefault(attackerEquipId, attackerEquipId);
+        String targetCodename = equipIDToCodename.getOrDefault(targetEquipId, targetEquipId); 
     
         if (attackerTeam == null || targetTeam == null) {
             logEvent("Unknown equipment ID(s) in hit: " + attackerEquipId + " or " + targetEquipId);
@@ -176,9 +184,9 @@ public class GameProgressScreen extends JFrame {
     
         // Log what happened
         if (friendlyFire) {
-            logEvent("Friendly fire! " + attackerEquipId + " hit teammate " + targetEquipId);
+            logEvent("Friendly fire! " + attackerCodename + " hit teammate " + targetCodename);
         } else {
-            logEvent("Enemy hit! " + attackerEquipId + " hit enemy " + targetEquipId);
+            logEvent("Enemy hit! " + attackerCodename + " hit enemy " + targetCodename);
         }
     }
     
@@ -199,3 +207,4 @@ public class GameProgressScreen extends JFrame {
 
    
 }
+
