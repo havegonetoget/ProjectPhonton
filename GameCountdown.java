@@ -84,21 +84,17 @@ public class GameCountdown {
        // Create the GameProgressScreen (pass the teams data to it)
        GameProgressScreen gps = new GameProgressScreen(redTeam, greenTeam);
 
-       // Start the UDP server with the reference to GameProgressScreen
-       new Thread(() -> {
-        try {
-            UDPServer.main(gps);  // Pass gps reference to the UDPServer
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }).start();
+       
 
+// Start the UDP server with the reference to GameProgressScreen
+UDPServer udpServer = new UDPServer(gps);
+new Thread(udpServer).start();  // ✅ Corrected this
 
-        try{
-        UDPClient.sendMessage("202");
-        } catch (IOException e){
-            e.printStackTrace();
-        }
+try {
+    UDPClient.sendMessage("202");
+} catch (IOException e) {
+    e.printStackTrace();
+}
 
 
     }
