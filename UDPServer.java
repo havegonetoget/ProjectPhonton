@@ -63,21 +63,21 @@ public class UDPServer {
         // Tell client the target was hit (optional)
         UDPClient.sendMessage(targetEquipId);
 
-        // Handle scoring and logging
-        gps.processHit(attackerEquipId, targetEquipId);
-        
-        
-            } else if (message.equals("53")) {
-                
-            } else if (message.equals("43")) {
-               
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (targetEquipId.equals("43") || targetEquipId.equals("53")) {
+            System.out.println("Player " + attackerEquipId + " hit a base!");
+            gps.markPlayerAsBaseHitter(targetEquipId);
+        } else {
+            System.out.println("Equipment " + attackerEquipId + " hit Equipment " + targetEquipId);
+            UDPClient.sendMessage(targetEquipId);
+            gps.processHit(attackerEquipId, targetEquipId);
         }
+        
+     }
+     } catch (Exception e) {
+         e.printStackTrace();
+     }
     }
     
-   
-   
+
 
 }
