@@ -11,7 +11,7 @@ import java.sql.SQLException;
 public class UDPServer implements Runnable {
     private static final int RECEIVE_PORT = 7501;
     private GameProgressScreen gps;
-    bool inProgress = true; 
+    boolean inProgress = true; 
 
     public UDPServer(GameProgressScreen gps) {
         this.gps = gps;
