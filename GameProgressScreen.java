@@ -10,6 +10,8 @@ public class GameProgressScreen extends JFrame {
     private Map<String, JLabel> redEquipmentLabels = new HashMap<>();
     private Map<String, JLabel> greenEquipmentLabels = new HashMap<>();
     private Map<String, String> equipIDToCodename = new HashMap<>();
+    private JPanel redPanel;
+    private JPanel greenPanel; 
 
     // Event log text area.
     private JTextArea eventLogArea;
@@ -29,7 +31,7 @@ public class GameProgressScreen extends JFrame {
         scoreboardPanel.setBorder(BorderFactory.createTitledBorder("Scoreboard"));
 
         // Red Team scoreboard panel
-        JPanel redPanel = new JPanel();
+        redPanel = new JPanel();   //since there is no local green panel no need to reference the memeber variable by using this.red, same for green
         redPanel.setLayout(new BoxLayout(redPanel, BoxLayout.Y_AXIS));
         redPanel.setBorder(BorderFactory.createTitledBorder("Red Team"));
         for (String[] player : redTeam) {
@@ -44,7 +46,7 @@ public class GameProgressScreen extends JFrame {
         }
 
         // Green Team scoreboard panel
-        JPanel greenPanel = new JPanel();
+        greenPanel = new JPanel();
         greenPanel.setLayout(new BoxLayout(greenPanel, BoxLayout.Y_AXIS));
         greenPanel.setBorder(BorderFactory.createTitledBorder("Green Team"));
         for (String[] player : greenTeam) {
@@ -176,9 +178,45 @@ public class GameProgressScreen extends JFrame {
                         newText += " [B]";
                     }
                     label.setText(newText);
+                    sortTeamScores(team);
                 }
             }
         });
+    }
+
+    public void sortTeamScores(String team){
+        JPanel panelToSort = "red".equalsIgnoreCase(team) ? redPanel : greenPanel; 
+        Map<String, JLabel> equipmentLables = "red".equalsIgnoreCase(team) ? redEquipmentLabels : greenEquipmentLabels;
+        java.util.List<JLabel> labels = new java.util.ArrayList<>(equipmentLables.values());
+
+        labels.sort((a, b) -> {
+            int scoreA = extractScore(a.getText());
+            int scoreB = extractScore(b.getText());
+            return Integer.compare(scoreB, scoreA);
+        });
+
+        panelToSort.removeAll();
+        for (JLabel label : labels){
+            panelToSort.add(label);
+        }
+
+        panelToSort.revalidate();
+        panelToSort.repaint();
+    }
+
+    public int extractScore(String labelText) {
+        try {
+            String cleaned = labelText.replace(" [B]", "");
+            String[] parts = cleaned.split("\\|"); 
+
+            if (parts.length >= 3){
+                return Integer.parseInt(parts[2].trim().split(":")[1]); 
+            }
+         } catch (Exception e) {
+            e.printStackTrace();
+         }
+
+        return 0; 
     }
 
     public void processHit(String attackerEquipId, String targetEquipId) {
