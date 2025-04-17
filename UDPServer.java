@@ -11,6 +11,7 @@ import java.sql.SQLException;
 public class UDPServer implements Runnable {
     private static final int RECEIVE_PORT = 7501;
     private GameProgressScreen gps;
+    bool inProgress = true; 
 
     public UDPServer(GameProgressScreen gps) {
         this.gps = gps;
@@ -25,7 +26,7 @@ public class UDPServer implements Runnable {
 
             System.out.println("UDP Server started on port " + RECEIVE_PORT);
 
-            while (true) {
+            while (inProgress) {
                 DatagramPacket packet = new DatagramPacket(receiveBuffer, receiveBuffer.length);
                 socket.receive(packet);
                 String receivedData = new String(packet.getData(), 0, packet.getLength());
@@ -50,6 +51,7 @@ public class UDPServer implements Runnable {
                 System.out.println("Game Start!");
             } else if (message.equals("221")) {
                 System.out.println("Game Over!");
+                inProgress = false; 
             } else if (message.contains(":")) {
                 String[] parts = message.split(":");
                 String attackerEquipId = parts[0];
