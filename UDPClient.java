@@ -4,28 +4,22 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.util.Scanner;
+
 //UDP client to send game-related messages over the network
 public class UDPClient {
     private static String BROADCAST_IP = "127.0.0.1"; // Localhost
     private static int BROADCAST_PORT = 7500;
-    private static int RECEIVE_PORT = 7501; 
+     
 
-    public static void changeNetwork(){  
-         //Check if the user would like the change IP networks
-        //Create scanner for user input
-        Scanner scanner = new Scanner(System.in);
-
-        //ask if user would like to change IP
-        System.out.println("Would you like to change networks (Y/N)");
-        String comparator = scanner.nextLine();
-
-        //if the user decides to change the IP
-        if (comparator.compareToIgnoreCase("Y") == 0){
-            System.out.println("Please input the new IP network");
-            BROADCAST_IP = scanner.nextLine();
-        }
+    public static void setBroadcast(String ip) {
+        BROADCAST_IP = ip;
+        System.out.println("Changing broadcast IP to: " + BROADCAST_IP);
     }
+
+    public static String getBroadcast() {
+        return BROADCAST_IP; 
+    }
+
 
     //send a message via udp to the specified brodcast port
     public static void sendMessage(String message) throws IOException {

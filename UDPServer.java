@@ -3,9 +3,7 @@ handling game events. */
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+
 
 //UDP server to listen for game-related messages
 public class UDPServer implements Runnable {

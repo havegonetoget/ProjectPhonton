@@ -94,9 +94,11 @@ public class PlayerEntryScreen extends JFrame {
         JButton submitButton = new JButton("Save Entries (F7)");
         JButton startButton = new JButton("Start Game (F6)");
         JButton clearButton = new JButton("Clear Entries (F12)");
+        JButton changeNetworkButton = new JButton("Change Network");
         controlPanel.add(submitButton);
         controlPanel.add(startButton);
         controlPanel.add(clearButton);
+        controlPanel.add(changeNetworkButton);
 
         getContentPane().setLayout(new BorderLayout(10, 10));
         getContentPane().add(mainPanel, BorderLayout.CENTER);
@@ -105,6 +107,7 @@ public class PlayerEntryScreen extends JFrame {
         submitButton.addActionListener(e -> playerSave());
         startButton.addActionListener(e -> startGame());
         clearButton.addActionListener(e -> clearPlayerEntries());
+        changeNetworkButton.addActionListener(e -> changeNetwork());
 
         setFocusable(true);
         requestFocusInWindow(); 
@@ -175,6 +178,19 @@ public class PlayerEntryScreen extends JFrame {
         }
 
         JOptionPane.showMessageDialog(null, "Players have been saved.");
+    }
+
+    public void changeNetwork() {
+        String currentIP = UDPClient.getBroadcast(); 
+        String newIP = JOptionPane.showInputDialog(this, 
+        "Current IP: " + currentIP + "\nEnter new Broadcast IP: ",
+        "Change Network",
+        JOptionPane.QUESTION_MESSAGE); 
+
+        if (newIP != null && !newIP.trim().isEmpty()) {
+            UDPClient.setBroadcast(newIP.trim());
+            JOptionPane.showMessageDialog(this, "Broadcast IP changed to: " + newIP);
+        }
     }
 
     public void startGame() {

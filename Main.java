@@ -1,6 +1,3 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.sql.SQLException;
 
 
@@ -29,24 +26,9 @@ public class Main {
 
         // Start the player entry screen (GUI)
         javax.swing.SwingUtilities.invokeLater(() -> {
-            new PlayerEntryScreen();  //pass instance of main to player entry screen
+            new PlayerEntryScreen();  
         });
 
-        
-     
-
-        
-
-       
-
-        // Example UDPClient usage - send a test message
-        try {
-            UDPClient.changeNetwork(); 
-            UDPClient.sendMessage("Test message to broadcast");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-         
     }
 
 
