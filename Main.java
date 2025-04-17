@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class Main {
     public static void main(String[] args) {
         
-        Main mainApp = new Main(); //makes instance of main
+        
         
         // Get Connection to the database
 		DatabaseConnection.getConnection();
@@ -29,7 +29,7 @@ public class Main {
 
         // Start the player entry screen (GUI)
         javax.swing.SwingUtilities.invokeLater(() -> {
-            new PlayerEntryScreen(mainApp);  //pass instance of main to player entry screen
+            new PlayerEntryScreen();  //pass instance of main to player entry screen
         });
 
         

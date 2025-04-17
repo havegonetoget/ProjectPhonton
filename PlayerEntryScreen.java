@@ -14,7 +14,7 @@ public class PlayerEntryScreen extends JFrame {
     private List<String[]> redTeamList = new ArrayList<>();
     private List<String[]> greenTeamList = new ArrayList<>();
 
-    public PlayerEntryScreen(Main mainApp) {
+    public PlayerEntryScreen() {
         setTitle("Player Entry");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 600);
