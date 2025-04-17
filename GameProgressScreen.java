@@ -107,7 +107,12 @@ public class GameProgressScreen extends JFrame {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			}
+		    // ← schedule window close on the EDT
+                SwingUtilities.invokeLater(() -> {
+                    setVisible(false);
+                    dispose();
+                	});
+		}
         }
     }
 
