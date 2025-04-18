@@ -41,6 +41,7 @@ public class GameProgressScreen extends JFrame {
         redPanel = new JPanel();   //since there is no local green panel no need to reference the memeber variable by using this.red, same for green
         redPanel.setLayout(new BoxLayout(redPanel, BoxLayout.Y_AXIS));
         redPanel.setBorder(BorderFactory.createTitledBorder("Red Team"));
+        redPanel.add(redTeamScoreLabel);
         for (String[] player : redTeam) {
             String playerId = player[0];
             String playerName = player[1];
@@ -56,6 +57,7 @@ public class GameProgressScreen extends JFrame {
         greenPanel = new JPanel();
         greenPanel.setLayout(new BoxLayout(greenPanel, BoxLayout.Y_AXIS));
         greenPanel.setBorder(BorderFactory.createTitledBorder("Green Team"));
+        greenPanel.add(greenTeamScoreLabel);
         for (String[] player : greenTeam) {
             String playerId = player[0];
             String playerName = player[1];
@@ -173,6 +175,13 @@ public class GameProgressScreen extends JFrame {
         redTeamScoreLabel.setText("Team Score: " + redTotal);
         greenTeamScoreLabel.setText("Team Score: " + greenTotal);
 
+        if (redPanel.getComponentCount() == 0 || redPanel.getComponent(0) != redTeamScoreLabel) {
+            redPanel.add(redTeamScoreLabel, 0);
+        }
+        if (greenPanel.getComponentCount() == 0 || greenPanel.getComponent(0) != greenTeamScoreLabel) {
+            greenPanel.add(greenTeamScoreLabel, 0);
+        }
+
         String leadingTeam = redTotal > greenTotal ? "red" : (greenTotal > redTotal ? "green" : "tie");
         flashTeamPanel(leadingTeam);
     }
@@ -210,7 +219,7 @@ public class GameProgressScreen extends JFrame {
                     }
                     label.setText(newText);
                     sortTeamScores(team);
-		    updateTeamScores();
+		            updateTeamScores();
                 }
             }
         });
@@ -305,5 +314,46 @@ public class GameProgressScreen extends JFrame {
             return "green";
         }
         return null;
+    }
+
+    public static void main(String[] args) {
+        // Mock player data: {playerId, codename, equipmentId}
+        List<String[]> redTeam = List.of(
+            new String[]{"1", "RedLeader", "R001"},
+            new String[]{"2", "RedScout", "R002"}
+        );
+
+        List<String[]> greenTeam = List.of(
+            new String[]{"3", "GreenSniper", "G001"},
+            new String[]{"4", "GreenTank", "G002"}
+        );
+
+        // Create the GameProgressScreen instance
+        GameProgressScreen screen = new GameProgressScreen(redTeam, greenTeam);
+
+        // Simulate some events after a short delay
+        new Thread(() -> {
+            try {
+                Thread.sleep(2000); // Let UI initialize
+
+                // Simulate hits
+                screen.processHit("R001", "G001");
+                Thread.sleep(1000);
+                screen.processHit("G001", "R001");
+                Thread.sleep(1000);
+                screen.processHit("R002", "R001"); // Friendly fire
+                Thread.sleep(1000);
+
+                // Simulate base hit
+                screen.markPlayerAsBaseHitter("G002");
+
+                // Simulate red team leading, causing flash
+                screen.processHit("R001", "G002");
+                screen.processHit("R001", "G002");
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 }
