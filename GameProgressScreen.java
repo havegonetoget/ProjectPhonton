@@ -16,6 +16,9 @@ public class GameProgressScreen extends JFrame {
     // Event log text area.
     private JTextArea eventLogArea;
 
+    //get instance of updServer to close
+    private UDPServer udpServer;
+
     // Timer label and countdown time in seconds.
     private JLabel timerLabel;
     private int timeRemaining = 360; // 6 minutes in seconds
@@ -95,6 +98,10 @@ public class GameProgressScreen extends JFrame {
         new Thread(this::startCountdownTimer).start();
     }
 
+    public void setUDPServer(UDPServer udpServer) {
+	    this.udpServer = udpServer;
+    }
+
     private String formatTime(int totalSeconds) {
         int minutes = totalSeconds / 60;
         int seconds = totalSeconds % 60;
@@ -111,21 +118,46 @@ public class GameProgressScreen extends JFrame {
                 e.printStackTrace();
             }
             if (secondsLeft == 0) {
-				try {
-					UDPClient.sendMessage("221");
-					UDPClient.sendMessage("221");
-					UDPClient.sendMessage("221");
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+		try {
+			UDPClient.sendMessage("221");
+			UDPClient.sendMessage("221");
+			UDPClient.sendMessage("221");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		udpServer.stop();
+		    
 		    // ← schedule window close on the EDT need to incoperate this into the button
                 SwingUtilities.invokeLater(() -> {
+		    showContinueButton();
                     setVisible(false);
                     dispose();
                 	});
 		}
         }
     }
+
+    private void showContinuePanel() {
+		
+	JDialog continueDialog = new JDialog(this, "Continue", true);
+	continueDialog.setSize(300, 150);
+	continueDialog.setLocationRelativeTo(this);
+		
+	JPanel panel = new JPanel(new BorderLayout(10, 10));
+		
+	JButton continueButton = new JButton("Return to Player Entry Screen");
+	continueButton.addActionListener(E -> {
+		continueDialog.dispose();
+		this.setVisible(false);
+		this.dispose();
+		Main.playerEntryScreen.setVisible(true);
+	});
+		
+	panel.add(continueButton, BorderLayout.SOUTH);
+	continueDialog.add(continueButton);
+	continueDialog.setVisible(true);
+}
+		
 
     public void markPlayerAsBaseHitter(String equipId) {
         SwingUtilities.invokeLater(() -> {
