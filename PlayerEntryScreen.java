@@ -207,7 +207,7 @@ public class PlayerEntryScreen extends JFrame {
 
             // Close the playerEntry window so that it can be returned to once the game has ended
             // from the gameProgress window. 
-           setVisible(false); 
+           this.setVisible(false); 
        
     }
 }

@@ -2,6 +2,10 @@ import java.sql.SQLException;
 
 
 public class Main {
+
+    public static PlayerEntryScreen playerEntryScreen;
+
+
     public static void main(String[] args) {
         
         
@@ -26,7 +30,7 @@ public class Main {
 
         // Start the player entry screen (GUI)
         javax.swing.SwingUtilities.invokeLater(() -> {
-            new PlayerEntryScreen();  
+            playerEntryScreen = new PlayerEntryScreen();  
         });
 
     }

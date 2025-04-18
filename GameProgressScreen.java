@@ -118,7 +118,7 @@ public class GameProgressScreen extends JFrame {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-		    // ← schedule window close on the EDT
+		    // ← schedule window close on the EDT need to incoperate this into the button
                 SwingUtilities.invokeLater(() -> {
                     setVisible(false);
                     dispose();
@@ -334,8 +334,7 @@ public class GameProgressScreen extends JFrame {
         // Simulate some events after a short delay
         new Thread(() -> {
             try {
-                Thread.sleep(2000); // Let UI initialize
-
+                Thread.sleep(2000); 
                 // Simulate hits
                 screen.processHit("R001", "G001");
                 Thread.sleep(1000);
@@ -350,6 +349,10 @@ public class GameProgressScreen extends JFrame {
                 // Simulate red team leading, causing flash
                 screen.processHit("R001", "G002");
                 screen.processHit("R001", "G002");
+
+
+                screen.setVisible(false);
+                Main.playerEntryScreen.setVisible(true);
 
             } catch (InterruptedException e) {
                 e.printStackTrace();
