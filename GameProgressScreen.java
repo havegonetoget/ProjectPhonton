@@ -137,7 +137,7 @@ public class GameProgressScreen extends JFrame {
         }
     }
 
-    private void showContinuePanel() {
+    private void showContinueButton() {
 		
 	JDialog continueDialog = new JDialog(this, "Continue", true);
 	continueDialog.setSize(300, 150);
