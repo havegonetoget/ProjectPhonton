@@ -88,12 +88,16 @@ public class GameCountdown {
 
 // Start the UDP server with the reference to GameProgressScreen
         UDPServer udpServer = new UDPServer(gps);
+        gps.setUDPServer(udpServer);
         new Thread(udpServer).start(); 
 
         try {
+            Thread.sleep(1000);
             UDPClient.sendMessage("202");
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (InterruptedException ie) {
+            ie.printStackTrace();
         }
 
 
