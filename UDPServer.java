@@ -15,6 +15,10 @@ public class UDPServer implements Runnable {
         this.gps = gps;
     }
 
+    public void stop() {
+        inProgress = false;
+    }
+
     @Override
     public void run() {
         DatagramSocket socket = null;
