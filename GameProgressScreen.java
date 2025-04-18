@@ -12,13 +12,20 @@ public class GameProgressScreen extends JFrame {
     private Map<String, String> equipIDToCodename = new HashMap<>();
     private JPanel redPanel;
     private JPanel greenPanel; 
-
+    private JPanel scoreboardPanel;
     // Event log text area.
     private JTextArea eventLogArea;
 
     // Timer label and countdown time in seconds.
     private JLabel timerLabel;
     private int timeRemaining = 360; // 6 minutes in seconds
+
+    private Map<String, Integer> teamScores = new HashMap<>() {{
+        put("red", 0);
+        put("green", 0);
+    }};	
+    private JLabel redTeamScoreLabel = new JLabel("Team Score: 0", SwingConstants.CENTER);
+    private JLabel greenTeamScoreLabel = new JLabel("Team Score: 0", SwingConstants.CENTER);
 
     public GameProgressScreen(List<String[]> redTeam, List<String[]> greenTeam) {
         setTitle("Game Progress");
@@ -151,11 +158,35 @@ public class GameProgressScreen extends JFrame {
 					int newScore = currentScore + scoreChange;
 
 					updateScore(attackerTeam, equipId, newScore);
+					updateTeamScores();
                 }
             }
         });
     }
 
+    public void updateTeamScores() {
+        int redTotal = redEquipmentLabels.values().stream().mapToInt(l -> extractScore(l.getText())).sum();
+        int greenTotal = greenEquipmentLabels.values().stream().mapToInt(l -> extractScore(l.getText())).sum();
+        teamScores.put("red", redTotal);
+        teamScores.put("green", greenTotal);
+
+        redTeamScoreLabel.setText("Team Score: " + redTotal);
+        greenTeamScoreLabel.setText("Team Score: " + greenTotal);
+
+        String leadingTeam = redTotal > greenTotal ? "red" : (greenTotal > redTotal ? "green" : "tie");
+        flashTeamPanel(leadingTeam);
+    }
+
+    public void flashTeamPanel(String team) {
+        if ("tie".equals(team)) return;
+        JPanel panel = "red".equals(team) ? redPanel : greenPanel;
+        Color original = panel.getBackground();
+        panel.setBackground(Color.YELLOW);
+        Timer timer = new Timer(500, e -> panel.setBackground(original));
+        timer.setRepeats(false);
+        timer.start();
+    }
+	
     public void updateScore(String team, String equipId, int newScore) {
         SwingUtilities.invokeLater(() -> {
             JLabel label = null;
@@ -179,6 +210,7 @@ public class GameProgressScreen extends JFrame {
                     }
                     label.setText(newText);
                     sortTeamScores(team);
+		    updateTeamScores();
                 }
             }
         });
