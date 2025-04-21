@@ -9,6 +9,7 @@ This project requires the use of a either a virual or local machine to run. A vi
 3. echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/student/.bashrc
 4. eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 5. brew install gradle
+   
 To make sure everthing gets installed correctly run the following commands in your command line:
 1. javac -version
 2. java -version
