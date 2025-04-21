@@ -13,6 +13,7 @@ To make sure everthing gets installed correctly run the following commands in yo
 1. javac -version
 2. java -version
 3. gradle --version
+
 Once this project's repoistory is copied to the desired machine and it located in a folder, the user can go through the terminal and run the command ./gradle.bash to activate the main of the program. You might have to give the gradle.bash file permissions to run. The python script needs to be ran in a seperate terminal before game start countdown finishes.
 
 The main script will prompt the user to see if there should be a change of the newtowrk where broadcast will take place (answer with Y/N) and then load a player enerty screen that will allow for users to put in playerID, codename, and equipment numbers. Once the desired feilds are entered the user will hit. The save button will save the playerID's to the database and send them to be put into the game. Clear will clear all the entries in the player entry screen. Once ready hit the start game button to signal the server to begin the game where a 30 second countdown to start the game happens and then the game progress screen will pop up to show players and there scores updating.
