@@ -9,10 +9,11 @@ import java.net.DatagramSocket;
 public class UDPServer implements Runnable {
     private static final int RECEIVE_PORT = 7501;
     private GameProgressScreen gps;
-    boolean inProgress = true; 
+    private volatile boolean inProgress; 
 
     public UDPServer(GameProgressScreen gps) {
         this.gps = gps;
+        this.inProgress = true; 
     }
 
     public void stop() {
@@ -53,7 +54,7 @@ public class UDPServer implements Runnable {
                 System.out.println("Game Start!");
             } else if (message.equals("221")) {
                 System.out.println("Game Over!");
-                inProgress = false; 
+                this.stop();  
             } else if (message.contains(":")) {
                 String[] parts = message.split(":");
                 String attackerEquipId = parts[0];
