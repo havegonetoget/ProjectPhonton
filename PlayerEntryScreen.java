@@ -177,6 +177,8 @@ public class PlayerEntryScreen extends JFrame {
             }
         }
 
+        broadcastEqiupIDs(redTeamList, greenTeamList);
+
         JOptionPane.showMessageDialog(null, "Players have been saved.");
     }
 
@@ -192,6 +194,29 @@ public class PlayerEntryScreen extends JFrame {
             JOptionPane.showMessageDialog(this, "Broadcast IP changed to: " + newIP);
         }
     }
+
+    public void broadcastEqiupIDs(List<String[]> redTeam, List<String[]> greenTeam) {
+        for (String[] player : redTeam) {
+            String equipID = player[2];
+
+            try {
+                UDPClient.sendMessage(equipID);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        for (String[] player : greenTeam) {
+            String equipID = player[2];
+
+            try {
+                    UDPClient.sendMessage(equipID);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    
 
     public void startGame() {
        
